@@ -1,0 +1,23 @@
+[
+  {
+    "objectID": "notes/note1_11_12_2025_first_note.html",
+    "href": "notes/note1_11_12_2025_first_note.html",
+    "title": "First Note",
+    "section": "",
+    "text": "This is an example of a single note page.\nThe page uses the same soft background as the homepage but wraps your content in a centered, rounded card with a shadow, so it feels like a note floating over the background.\n\n\nWrite whatever you want in standard Markdown.\n\nBullet points\nCode blocks\nHeadings\n\n```python def hello(): print(“Hello, notes!”)"
+  },
+  {
+    "objectID": "notes/note1_11_12_2025_first_note.html#section-1",
+    "href": "notes/note1_11_12_2025_first_note.html#section-1",
+    "title": "First Note",
+    "section": "",
+    "text": "Write whatever you want in standard Markdown.\n\nBullet points\nCode blocks\nHeadings\n\n```python def hello(): print(“Hello, notes!”)"
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "My Notes",
+    "section": "",
+    "text": "Notes\n\n\n&lt;!-- Card 1 --&gt;\n&lt;article class=\"event-card\"&gt;\n  &lt;div class=\"event-meta\"&gt;\n    &lt;div class=\"event-date-chip\"&gt;\n      &lt;div class=\"event-date-range\"&gt;TODAY&lt;/div&gt;\n      &lt;div class=\"event-time\"&gt;17:00&lt;/div&gt;\n    &lt;/div&gt;\n  &lt;/div&gt;\n  &lt;div class=\"event-body\"&gt;\n    &lt;h2 class=\"event-title\"&gt;\n      &lt;a href=\"notes/example-note.qmd\"&gt;Example Note&lt;/a&gt;\n    &lt;/h2&gt;\n    &lt;p class=\"event-description\"&gt;\n      A sample note page so you can see how individual articles will look\n      with the same background and card styling.\n    &lt;/p&gt;\n  &lt;/div&gt;\n  &lt;div class=\"event-action\"&gt;\n    &lt;a class=\"event-button light\" href=\"notes/example-note.qmd\"&gt;\n      Open note\n    &lt;/a&gt;\n  &lt;/div&gt;\n&lt;/article&gt;\n\n&lt;!-- Card 2 --&gt;\n&lt;article class=\"event-card\"&gt;\n  &lt;div class=\"event-meta\"&gt;\n    &lt;div class=\"event-date-chip\"&gt;\n      &lt;div class=\"event-date-range\"&gt;ONGOING&lt;/div&gt;\n      &lt;div class=\"event-time\"&gt;10:00&lt;/div&gt;\n    &lt;/div&gt;\n  &lt;/div&gt;\n  &lt;div class=\"event-body\"&gt;\n    &lt;h2 class=\"event-title\"&gt;\n      &lt;a href=\"notes/second-note.qmd\"&gt;Second Note&lt;/a&gt;\n    &lt;/h2&gt;\n    &lt;p class=\"event-description\"&gt;\n      Another example card to show how multiple notes appear in the list.\n      You can duplicate this structure for all of your pages.\n    &lt;/p&gt;\n  &lt;/div&gt;\n  &lt;div class=\"event-action\"&gt;\n    &lt;a class=\"event-button dark\" href=\"notes/second-note.qmd\"&gt;\n      Open note\n    &lt;/a&gt;\n  &lt;/div&gt;\n&lt;/article&gt;\n\n&lt;!-- Add more cards by copying the block above --&gt;"
+  }
+]
