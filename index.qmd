@@ -22,7 +22,7 @@ format:
       </div>
       <div class="event-body">
         <h2 class="event-title">
-          <a href="notes/example-note.qmd">Example Note</a>
+          <a href="notes/note1_11_12_2025_first_note.qmd">First Note</a>
         </h2>
         <p class="event-description">
           A sample note page so you can see how individual articles will look
@@ -35,32 +35,5 @@ format:
         </a>
       </div>
     </article>
-
-    <!-- Card 2 -->
-    <article class="event-card">
-      <div class="event-meta">
-        <div class="event-date-chip">
-          <div class="event-date-range">ONGOING</div>
-          <div class="event-time">10:00</div>
-        </div>
-      </div>
-      <div class="event-body">
-        <h2 class="event-title">
-          <a href="notes/second-note.qmd">Second Note</a>
-        </h2>
-        <p class="event-description">
-          Another example card to show how multiple notes appear in the list.
-          You can duplicate this structure for all of your pages.
-        </p>
-      </div>
-      <div class="event-action">
-        <a class="event-button dark" href="notes/second-note.qmd">
-          Open note
-        </a>
-      </div>
-    </article>
-
-    <!-- Add more cards by copying the block above -->
-
   </div>
 </section>
