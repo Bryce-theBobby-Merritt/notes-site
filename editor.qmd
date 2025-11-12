@@ -7,12 +7,7 @@ format:
 ---
 
 ```{=html}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <style>
+<style>
         * {
             margin: 0;
             padding: 0;
@@ -246,10 +241,9 @@ format:
                 grid-template-columns: 1fr;
             }
         }
-    </style>
-</head>
-<body>
-    <div class="container">
+</style>
+
+<div class="container">
         <h1>✍️ Notes Editor</h1>
 
         <div class="github-config">
@@ -429,6 +423,5 @@ def hello():
         // Initialize preview on load
         updatePreview();
     </script>
-</body>
-</html>
+</div>
 ```
