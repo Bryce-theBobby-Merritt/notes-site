@@ -1,0 +1,66 @@
+---
+title: "My Notes"
+format:
+  html:
+    toc: false
+    page-layout: full
+---
+
+<section class="events-wrapper">
+
+  <h1 class="events-title">Notes</h1>
+
+  <div class="events-list">
+
+    <!-- Card 1 -->
+    <article class="event-card">
+      <div class="event-meta">
+        <div class="event-date-chip">
+          <div class="event-date-range">TODAY</div>
+          <div class="event-time">17:00</div>
+        </div>
+      </div>
+      <div class="event-body">
+        <h2 class="event-title">
+          <a href="notes/example-note.qmd">Example Note</a>
+        </h2>
+        <p class="event-description">
+          A sample note page so you can see how individual articles will look
+          with the same background and card styling.
+        </p>
+      </div>
+      <div class="event-action">
+        <a class="event-button light" href="notes/example-note.qmd">
+          Open note
+        </a>
+      </div>
+    </article>
+
+    <!-- Card 2 -->
+    <article class="event-card">
+      <div class="event-meta">
+        <div class="event-date-chip">
+          <div class="event-date-range">ONGOING</div>
+          <div class="event-time">10:00</div>
+        </div>
+      </div>
+      <div class="event-body">
+        <h2 class="event-title">
+          <a href="notes/second-note.qmd">Second Note</a>
+        </h2>
+        <p class="event-description">
+          Another example card to show how multiple notes appear in the list.
+          You can duplicate this structure for all of your pages.
+        </p>
+      </div>
+      <div class="event-action">
+        <a class="event-button dark" href="notes/second-note.qmd">
+          Open note
+        </a>
+      </div>
+    </article>
+
+    <!-- Add more cards by copying the block above -->
+
+  </div>
+</section>

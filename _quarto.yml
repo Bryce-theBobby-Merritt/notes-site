@@ -1,0 +1,16 @@
+project:
+  type: website
+  output-dir: docs
+
+website:
+  title: "My Notes"
+  navbar: false   # keep the layout clean like the screenshot
+  page-footer:
+    left: "© {{< meta title >}}"
+
+format:
+  html:
+    theme: flatly        # base typography + components
+    css: styles.css      # our custom styling
+    toc: false
+    page-layout: full

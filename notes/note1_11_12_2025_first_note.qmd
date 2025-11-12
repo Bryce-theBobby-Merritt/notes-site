@@ -1,0 +1,26 @@
+---
+title: "First Note"
+format:
+  html:
+    toc: true
+---
+
+# First note
+
+This is an example of a single note page.
+
+The page uses the same soft background as the homepage but wraps your
+content in a centered, rounded card with a shadow, so it feels like
+a note floating over the background.
+
+## Section 1
+
+Write whatever you want in standard Markdown.
+
+- Bullet points
+- Code blocks
+- Headings
+
+```python
+def hello():
+    print("Hello, notes!")
