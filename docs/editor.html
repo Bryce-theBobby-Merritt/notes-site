@@ -246,8 +246,8 @@
 
         <div class="github-config">
             <h3>⚙️ GitHub Configuration</h3>
-            <p>You'll need a GitHub Personal Access Token with <code>repo</code> scope.</p>
-            <p>Create one at: <a href="https://github.com/settings/tokens/new?scopes=repo&description=Notes%20Editor" target="_blank">github.com/settings/tokens/new</a></p>
+            <p>You'll need a GitHub Personal Access Token with <code>actions:write</code> scope to trigger workflows.</p>
+            <p>Create one at: <a href="https://github.com/settings/tokens/new?scopes=actions:write&description=Notes%20Editor" target="_blank">github.com/settings/tokens/new</a></p>
         </div>
 
         <div class="form-grid">
@@ -333,29 +333,6 @@ def hello():
             preview.innerHTML = marked.parse(content);
         }
 
-        function generateFilename(title) {
-            const date = new Date();
-            const month = String(date.getMonth() + 1).padStart(2, '0');
-            const day = String(date.getDate()).padStart(2, '0');
-            const year = date.getFullYear();
-            const slug = title.toLowerCase()
-                .replace(/[^a-z0-9]+/g, '_')
-                .replace(/^_+|_+$/g, '');
-            return `note_${month}_${day}_${year}_${slug}.qmd`;
-        }
-
-        function generateQmdContent(title, content) {
-            return `---
-title: "${title}"
-format:
-  html:
-    toc: true
----
-
-${content}
-`;
-        }
-
         function showStatus(message, type) {
             const status = document.getElementById('status');
             status.textContent = message;
@@ -385,40 +362,22 @@ ${content}
             const title = document.getElementById('title').value;
             const description = document.getElementById('description').value;
             const content = document.getElementById('content').value;
+            const dateChip = document.getElementById('date-chip').value;
+            const time = document.getElementById('time').value;
 
             if (!token || !title || !description || !content) {
                 showStatus('❌ Please fill in all required fields (marked with *)', 'error');
                 return;
             }
 
-            showStatus('⏳ Creating pull request...', 'info');
+            showStatus('⏳ Triggering GitHub Actions workflow...', 'info');
 
             const owner = 'Bryce-theBobby-Merritt';
             const repo = 'notes-site';
-            const filename = generateFilename(title);
-            const branchName = `add-note-${Date.now()}`;
-            const qmdContent = generateQmdContent(title, content);
 
             try {
-                // 1. Get default branch SHA
-                showStatus('⏳ Getting repository info...', 'info');
-                const mainBranch = await fetch(`https://api.github.com/repos/${owner}/${repo}/git/refs/heads/main`, {
-                    headers: {
-                        'Authorization': `token ${token}`,
-                        'Accept': 'application/vnd.github.v3+json'
-                    }
-                });
-
-                if (!mainBranch.ok) {
-                    throw new Error(`Failed to get main branch: ${mainBranch.statusText}`);
-                }
-
-                const mainData = await mainBranch.json();
-                const mainSha = mainData.object.sha;
-
-                // 2. Create new branch
-                showStatus('⏳ Creating new branch...', 'info');
-                const createBranch = await fetch(`https://api.github.com/repos/${owner}/${repo}/git/refs`, {
+                // Trigger the GitHub Actions workflow
+                const response = await fetch(`https://api.github.com/repos/${owner}/${repo}/actions/workflows/create-note.yml/dispatches`, {
                     method: 'POST',
                     headers: {
                         'Authorization': `token ${token}`,
@@ -426,70 +385,33 @@ ${content}
                         'Content-Type': 'application/json'
                     },
                     body: JSON.stringify({
-                        ref: `refs/heads/${branchName}`,
-                        sha: mainSha
+                        ref: 'main',
+                        inputs: {
+                            title: title,
+                            description: description,
+                            content: content,
+                            date_chip: dateChip,
+                            time: time
+                        }
                     })
                 });
 
-                if (!createBranch.ok) {
-                    throw new Error(`Failed to create branch: ${createBranch.statusText}`);
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(`Failed to trigger workflow: ${errorData.message || response.statusText}`);
                 }
-
-                // 3. Create file in new branch
-                showStatus('⏳ Creating note file...', 'info');
-                const createFile = await fetch(`https://api.github.com/repos/${owner}/${repo}/contents/notes/${filename}`, {
-                    method: 'PUT',
-                    headers: {
-                        'Authorization': `token ${token}`,
-                        'Accept': 'application/vnd.github.v3+json',
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        message: `Add note: ${title}`,
-                        content: btoa(unescape(encodeURIComponent(qmdContent))),
-                        branch: branchName
-                    })
-                });
-
-                if (!createFile.ok) {
-                    throw new Error(`Failed to create file: ${createFile.statusText}`);
-                }
-
-                // 4. Create pull request
-                showStatus('⏳ Creating pull request...', 'info');
-                const createPR = await fetch(`https://api.github.com/repos/${owner}/${repo}/pulls`, {
-                    method: 'POST',
-                    headers: {
-                        'Authorization': `token ${token}`,
-                        'Accept': 'application/vnd.github.v3+json',
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        title: `Add note: ${title}`,
-                        body: `## New Note\n\n**Title:** ${title}\n**Description:** ${description}\n\n---\n\nCreated via Notes Editor`,
-                        head: branchName,
-                        base: 'main'
-                    })
-                });
-
-                if (!createPR.ok) {
-                    const errorData = await createPR.json();
-                    throw new Error(`Failed to create PR: ${errorData.message || createPR.statusText}`);
-                }
-
-                const prData = await createPR.json();
 
                 showStatus(
-                    `✅ Success! Pull request created: ${prData.html_url}`,
+                    `✅ Success! Workflow triggered. Check the Actions tab for progress and the PR link.`,
                     'success'
                 );
 
-                // Open PR in new tab
-                window.open(prData.html_url, '_blank');
+                // Open the actions page in a new tab
+                window.open(`https://github.com/${owner}/${repo}/actions`, '_blank');
 
-                // Clear form after successful PR
+                // Clear form after successful trigger
                 setTimeout(() => {
-                    if (confirm('PR created successfully! Clear the form for a new note?')) {
+                    if (confirm('Workflow triggered successfully! Clear the form for a new note?')) {
                         clearForm();
                     }
                 }, 2000);
