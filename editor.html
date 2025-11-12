@@ -256,19 +256,9 @@
                 <input type="password" id="github-token" placeholder="ghp_xxxxxxxxxxxxx" required>
             </div>
 
-            <div class="form-group">
+            <div class="form-group full-width">
                 <label for="title">Note Title *</label>
                 <input type="text" id="title" placeholder="My Awesome Note" required>
-            </div>
-
-            <div class="form-group">
-                <label for="date-chip">Date Chip</label>
-                <input type="text" id="date-chip" placeholder="TODAY, ONGOING, etc." value="TODAY">
-            </div>
-
-            <div class="form-group">
-                <label for="time">Time</label>
-                <input type="text" id="time" placeholder="17:00" value="">
             </div>
 
             <div class="form-group full-width">
@@ -349,8 +339,6 @@ def hello():
         function clearForm() {
             if (confirm('Are you sure you want to clear the form?')) {
                 document.getElementById('title').value = '';
-                document.getElementById('date-chip').value = 'TODAY';
-                document.getElementById('time').value = '';
                 document.getElementById('description').value = '';
                 document.getElementById('content').value = '';
                 updatePreview();
@@ -362,13 +350,18 @@ def hello():
             const title = document.getElementById('title').value;
             const description = document.getElementById('description').value;
             const content = document.getElementById('content').value;
-            const dateChip = document.getElementById('date-chip').value;
-            const time = document.getElementById('time').value;
 
             if (!token || !title || !description || !content) {
                 showStatus('❌ Please fill in all required fields (marked with *)', 'error');
                 return;
             }
+
+            // Generate current date/time
+            const now = new Date();
+            const hours = String(now.getHours()).padStart(2, '0');
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            const time = `${hours}:${minutes}`;
+            const dateChip = 'TODAY';
 
             showStatus('⏳ Triggering GitHub Actions workflow...', 'info');
 
@@ -376,6 +369,9 @@ def hello():
             const repo = 'notes-site';
 
             try {
+                // Base64 encode the content to handle special characters
+                const encodedContent = btoa(unescape(encodeURIComponent(content)));
+
                 // Trigger the GitHub Actions workflow
                 const response = await fetch(`https://api.github.com/repos/${owner}/${repo}/actions/workflows/create-note.yml/dispatches`, {
                     method: 'POST',
@@ -389,7 +385,7 @@ def hello():
                         inputs: {
                             title: title,
                             description: description,
-                            content: content,
+                            content: encodedContent,
                             date_chip: dateChip,
                             time: time
                         }
@@ -397,8 +393,8 @@ def hello():
                 });
 
                 if (!response.ok) {
-                    const errorData = await response.json();
-                    throw new Error(`Failed to trigger workflow: ${errorData.message || response.statusText}`);
+                    const errorText = await response.text();
+                    throw new Error(`Failed to trigger workflow: ${response.status} ${response.statusText} - ${errorText}`);
                 }
 
                 showStatus(
@@ -422,19 +418,7 @@ def hello():
             }
         }
 
-        // Auto-populate date/time on page load
-        function initializeDateTime() {
-            const now = new Date();
-            const hours = String(now.getHours()).padStart(2, '0');
-            const minutes = String(now.getMinutes()).padStart(2, '0');
-            document.getElementById('time').value = `${hours}:${minutes}`;
-
-            // Set date chip to TODAY by default
-            document.getElementById('date-chip').value = 'TODAY';
-        }
-
-        // Initialize preview and date/time on load
-        initializeDateTime();
+        // Initialize preview on load
         updatePreview();
     </script>
 </body>

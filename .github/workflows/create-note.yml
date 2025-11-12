@@ -56,7 +56,10 @@ jobs:
 
       - name: Create note file
         run: |
-          cat > "notes/${{ steps.filename.outputs.filename }}" << 'EOF'
+          # Decode base64 content
+          DECODED_CONTENT=$(echo "${{ inputs.content }}" | base64 -d)
+
+          cat > "notes/${{ steps.filename.outputs.filename }}" << EOF
           ---
           title: "${{ inputs.title }}"
           format:
@@ -64,7 +67,7 @@ jobs:
               toc: true
           ---
 
-          ${{ inputs.content }}
+          $DECODED_CONTENT
           EOF
 
       - name: Commit and push
