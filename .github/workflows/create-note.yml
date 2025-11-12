@@ -1,0 +1,95 @@
+name: Create Note PR
+
+on:
+  workflow_dispatch:
+    inputs:
+      title:
+        description: 'Note title'
+        required: true
+        type: string
+      description:
+        description: 'Short description for the card'
+        required: true
+        type: string
+      content:
+        description: 'Markdown content of the note'
+        required: true
+        type: string
+      date_chip:
+        description: 'Date chip (e.g., TODAY, ONGOING)'
+        required: false
+        type: string
+        default: 'TODAY'
+      time:
+        description: 'Time (e.g., 17:00)'
+        required: false
+        type: string
+
+jobs:
+  create-note:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Generate filename
+        id: filename
+        run: |
+          # Get current date
+          DATE=$(date +"%m_%d_%Y")
+          # Slugify title
+          SLUG=$(echo "${{ inputs.title }}" | tr '[:upper:]' '[:lower:]' | sed 's/[^a-z0-9]/_/g' | sed 's/__*/_/g' | sed 's/^_//;s/_$//')
+          FILENAME="note_${DATE}_${SLUG}.qmd"
+          echo "filename=$FILENAME" >> $GITHUB_OUTPUT
+
+      - name: Create branch
+        run: |
+          BRANCH_NAME="add-note-$(date +%s)"
+          echo "BRANCH_NAME=$BRANCH_NAME" >> $GITHUB_ENV
+          git checkout -b $BRANCH_NAME
+
+      - name: Create note file
+        run: |
+          cat > "notes/${{ steps.filename.outputs.filename }}" << 'EOF'
+          ---
+          title: "${{ inputs.title }}"
+          format:
+            html:
+              toc: true
+          ---
+
+          ${{ inputs.content }}
+          EOF
+
+      - name: Commit and push
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add "notes/${{ steps.filename.outputs.filename }}"
+          git commit -m "Add note: ${{ inputs.title }}"
+          git push origin $BRANCH_NAME
+
+      - name: Create Pull Request
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh pr create \
+            --title "Add note: ${{ inputs.title }}" \
+            --body "## New Note
+
+          **Title:** ${{ inputs.title }}
+          **Description:** ${{ inputs.description }}
+          **Date Chip:** ${{ inputs.date_chip }}
+          **Time:** ${{ inputs.time }}
+
+          ---
+
+          Created via Notes Editor (GitHub Actions)" \
+            --base main \
+            --head $BRANCH_NAME
