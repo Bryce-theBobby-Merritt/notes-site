@@ -402,7 +402,7 @@ ${content}
             try {
                 // 1. Get default branch SHA
                 showStatus('⏳ Getting repository info...', 'info');
-                const mainBranch = await fetch(`https://api.github.com/repos/${owner}/${repo}/git/refs/heads/master`, {
+                const mainBranch = await fetch(`https://api.github.com/repos/${owner}/${repo}/git/refs/heads/main`, {
                     headers: {
                         'Authorization': `token ${token}`,
                         'Accept': 'application/vnd.github.v3+json'
@@ -468,7 +468,7 @@ ${content}
                         title: `Add note: ${title}`,
                         body: `## New Note\n\n**Title:** ${title}\n**Description:** ${description}\n\n---\n\nCreated via Notes Editor`,
                         head: branchName,
-                        base: 'master'
+                        base: 'main'
                     })
                 });
 
