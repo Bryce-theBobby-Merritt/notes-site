@@ -1,7 +1,24 @@
 /* Global background and typography --------------------------- */
 
 body {
-  background: #eaecf7;          /* soft bluish-purple, like screenshot */
+  /* warm cream base */
+  background-color: #efe3cc;
+
+  /* paper texture using layered gradients */
+  background-image:
+    /* subtle coffee blotches */
+    radial-gradient(circle at 20% 30%, rgba(183, 140, 96, 0.18), transparent 60%),
+    radial-gradient(circle at 80% 70%, rgba(150, 110, 70, 0.10), transparent 55%),
+
+    /* soft uneven warm tinting */
+    radial-gradient(circle at 50% 10%, rgba(255, 240, 220, 0.4), transparent 70%),
+    radial-gradient(circle at 0% 100%, rgba(240, 225, 200, 0.35), transparent 70%),
+
+    /* ultra-soft noise simulation */
+    linear-gradient(135deg, rgba(255, 250, 240, 0.7), rgba(250, 240, 225, 0.7));
+
+  background-blend-mode: overlay, multiply, normal;
+  background-attachment: fixed;
 }
 
 main.content {

@@ -6,34 +6,37 @@ format:
     page-layout: full
 ---
 
+::: {.rawhtml}
+
 <section class="events-wrapper">
 
-  <h1 class="events-title">Notes</h1>
+<h1 class="events-title">Notes</h1>
 
-  <div class="events-list">
+<div class="events-list">
 
-    <!-- Card 1 -->
-    <article class="event-card">
-      <div class="event-meta">
-        <div class="event-date-chip">
-          <div class="event-date-range">TODAY</div>
-          <div class="event-time">17:00</div>
-        </div>
-      </div>
-      <div class="event-body">
-        <h2 class="event-title">
-          <a href="notes/note1_11_12_2025_first_note.qmd">First Note</a>
-        </h2>
-        <p class="event-description">
-          A sample note page so you can see how individual articles will look
-          with the same background and card styling.
-        </p>
-      </div>
-      <div class="event-action">
-        <a class="event-button light" href="notes/example-note.qmd">
-          Open note
-        </a>
-      </div>
-    </article>
-  </div>
+<article class="event-card">
+<div class="event-meta">
+<div class="event-date-chip">
+<div class="event-date-range">TODAY</div>
+<div class="event-time">17:00</div>
+</div>
+</div>
+
+<div class="event-body">
+<h2 class="event-title">
+<a href="notes/note1_11_12_2025_first_note.qmd">First Note</a>
+</h2>
+<p class="event-description">
+A sample note page so you can see how individual articles will look with the same background and card styling.
+</p>
+</div>
+
+<div class="event-action">
+<a class="event-button light" href="notes/note1_11_12_2025_first_note.qmd">Open note</a>
+</div>
+</article>
+
+</div>
 </section>
+
+:::

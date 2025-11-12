@@ -5,6 +5,10 @@ format:
     toc: true
 ---
 
+::: {.rawhtml}
+<div class="note-card-wrapper">
+<div class="note-card">
+
 # First note
 
 This is an example of a single note page.
@@ -24,3 +28,8 @@ Write whatever you want in standard Markdown.
 ```python
 def hello():
     print("Hello, notes!")
+```
+
+</div>
+</div>
+:::
