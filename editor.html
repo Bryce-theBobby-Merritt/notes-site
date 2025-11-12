@@ -500,7 +500,19 @@ ${content}
             }
         }
 
-        // Initialize preview on load
+        // Auto-populate date/time on page load
+        function initializeDateTime() {
+            const now = new Date();
+            const hours = String(now.getHours()).padStart(2, '0');
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            document.getElementById('time').value = `${hours}:${minutes}`;
+
+            // Set date chip to TODAY by default
+            document.getElementById('date-chip').value = 'TODAY';
+        }
+
+        // Initialize preview and date/time on load
+        initializeDateTime();
         updatePreview();
     </script>
 </body>
