@@ -280,10 +280,9 @@ format:
 - Bullet point
 - Another point
 
-```python
+Code blocks: Use three backticks with language name
 def hello():
     print('Hello world!')
-```
 "></textarea>
             </div>
 
